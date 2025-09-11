@@ -9,13 +9,13 @@ export default function DeleteConfirm() {
 
   useEffect(() => {
     api
-      .get(`/${id}`)
+      .get(`/transactions/${id}`)
       .then((r) => setTx(r.data))
       .catch(() => navigate("/"));
   }, [id]);
 
   const handleDelete = async () => {
-    await api.delete(`/${id}`);
+    await api.delete(`/transactions/${id}`);
     navigate("/");
   };
 

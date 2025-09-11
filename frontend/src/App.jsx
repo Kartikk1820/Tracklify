@@ -3,19 +3,65 @@ import Home from "./pages/Home";
 import AddEdit from "./pages/AddEdit";
 import DeleteConfirm from "./pages/DeleteConfirm";
 import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
-    <BrowserRouter>
-    <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/add" element={<AddEdit />} />
-        <Route path="/:id/edit" element={<AddEdit />} />
-        <Route path="/:id/delete" element={<DeleteConfirm />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Protected routes */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add"
+            element={
+              <ProtectedRoute>
+                <AddEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/:id/edit"
+            element={
+              <ProtectedRoute>
+                <AddEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/:id/delete"
+            element={
+              <ProtectedRoute>
+                <DeleteConfirm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

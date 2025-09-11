@@ -1,7 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import api from "../api";
 import AddEditModal from "./AddEdit";
 import "./Dashboard.css"; // optional styling
+
+// Import Recharts components (only those needed for the pie chart)
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState([]);
@@ -10,7 +20,7 @@ export default function Dashboard() {
 
   const loadTransactions = async () => {
     try {
-      const res = await api.get("/");
+      const res = await api.get("/transactions");
       setTransactions(res.data);
     } catch (err) {
       console.error("Failed to fetch transactions", err);
@@ -27,38 +37,63 @@ export default function Dashboard() {
 
   const totalExpense = transactions
     .filter((t) => t.amount < 0)
-    .reduce((sum, t) => sum + Math.abs(t.amount), 0); // ✅ keep positive for display
+    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
-  const balance = totalIncome - totalExpense; // ✅ clearer calculation
+  const balance = totalIncome - totalExpense;
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete this transaction?")) {
-      await api.delete(`/${id}`);
+      await api.delete(`/transactions/${id}`);
       loadTransactions();
     }
   };
+
+  // Pie chart for summary only
+  const summaryData = useMemo(
+    () => [
+      { name: "Income", value: totalIncome },
+      { name: "Expense", value: totalExpense },
+      { name: "Balance", value: balance },
+    ],
+    [totalIncome, totalExpense, balance]
+  );
+
+  const COLORS = ["#2e7d32", "#c62828", "#1976d2"]; // green, red, blue
 
   return (
     <div className="dashboard-container">
       <h1 className="header">💰 Personal Finance Tracker</h1>
 
-      {/* Summary Section */}
-      <div className="summary">
-        <div className="summary-card">
-          <h3>Balance</h3>
-          <p>{balance}</p>
+      {/* Summary Pie Chart */}
+      {summaryData.some((d) => d.value > 0) && (
+        <div style={{ width: "100%", height: 300, marginTop: 20 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={summaryData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                innerRadius={60} // donut
+                label
+              >
+                {summaryData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend verticalAlign="bottom" height={36} />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-        <div className="summary-card">
-          <h3>Income</h3>
-          <p className="amount-positive">{totalIncome}</p>
-        </div>
-        <div className="summary-card">
-          <h3>Expense</h3>
-          <p className="amount-negative">{totalExpense}</p>
-        </div>
-      </div>
+      )}
 
-      {/* Add Button */}
+      {/* Add Transaction Button */}
       <button
         className="add-btn"
         onClick={() => {
@@ -119,12 +154,12 @@ export default function Dashboard() {
         </table>
       )}
 
-      {/* Modal */}
+      {/* Add/Edit Modal */}
       {showModal && (
         <AddEditModal
           initial={editTx}
-          onClose={() => setShowModal(false)} // ✅ no redirect
-          onSaved={loadTransactions} // ✅ reload data after save
+          onClose={() => setShowModal(false)}
+          onSaved={loadTransactions}
         />
       )}
     </div>

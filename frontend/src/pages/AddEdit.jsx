@@ -20,7 +20,7 @@ export default function AddEdit() {
     if (id) {
       setLoading(true);
       api
-        .get(`/${id}`)
+        .get(`/transactions/${id}`)
         .then((res) => {
           const tx = res.data;
           setForm({
@@ -47,9 +47,9 @@ export default function AddEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id) {
-      await api.put(`/${id}`, form); // update
+      await api.put(`/transactions/${id}`, form); // update
     } else {
-      await api.post("/", form); // create
+      await api.post("/transactions/", form); // create
     }
     navigate("/"); // redirect to home after save
   };

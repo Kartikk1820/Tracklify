@@ -98,3 +98,11 @@
 .btn-secondary:hover {
   background: #d1d5db;
 }
+
+.form-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: flex-start; /* or center */
+  justify-content: center;
+  padding: 32px 16px;
+}

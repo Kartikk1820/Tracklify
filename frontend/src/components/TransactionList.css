@@ -102,3 +102,41 @@
 .btn-delete:hover {
   background: #dc2626;
 }
+
+/* --- Filtering Section --- */
+.tx-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  align-items: center;
+}
+
+.tx-filter {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.tx-filter:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 6px rgba(102, 126, 234, 0.4);
+}
+
+.tx-filters select.tx-filter {
+  cursor: pointer;
+}
+
+.tx-filters input[type="date"] {
+  color: #444;
+}
