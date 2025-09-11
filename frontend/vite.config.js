@@ -16,5 +16,10 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    preview: {
+      host: true,
+      port: process.env.PORT ? Number(process.env.PORT) : 4173,
+      allowedHosts: ["expense-tracker-6ivh.onrender.com"],
+    },
   };
 });
