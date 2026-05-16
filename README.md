@@ -1,150 +1,152 @@
-## 💰 Expense Tracker
+<div align="center">
+  <h1>🚀 Tracklify</h1>
+  <p><strong>A comprehensive full-stack personal finance management application.</strong></p>
 
-A Personal Finance Tracker web application built with React, Express, and MongoDB. Track income/expenses, filter by category/date, visualize totals with charts, and manage your data securely.
+  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+  [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+  [![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](https://expressjs.com/)
+  [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+  [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
 
-### 🌐 Live Demo
+  [Live Demo](https://expense-tracker-6ivh.onrender.com)
+</div>
 
-- Deployed on Render: [expense-tracker-6ivh.onrender.com](https://expense-tracker-6ivh.onrender.com)
+<br />
 
-## ✨ Features
+Tracklify is a robust, responsive web application designed to help users track their income and expenses seamlessly. Built with the MERN stack (MongoDB, Express, React, Node.js), it features secure authentication, interactive data visualizations, and an intuitive user interface.
 
-- **Authentication**
-  - Register/Login with hashed passwords (bcrypt)
-  - JWT auth; in production the token is stored as an httpOnly cookie
-  - Protected routes on the frontend using `ProtectedRoute`
-- **Transactions (CRUD)**
-  - Add, edit, delete transactions (title, amount, date, category)
-  - User-scoped data on the backend (`req.user`)
-- **Filters & Pagination**
-  - Category dropdown and date range filters in the list
-  - Client‑side pagination
-- **Charts (Recharts)**
-  - Donut chart showing Income, Expense, and Balance
-  - Monthly totals data computed on the dashboard (kept for future extensions)
-- **UI/UX**
-  - Clean layout with a gradient header
-  - Responsive tables and forms
+## ✨ Key Features
 
-## 🛠️ Tech Stack
+* **🔐 Secure Authentication:** Robust user registration and login system utilizing bcrypt for password hashing and JSON Web Tokens (JWT) for secure, stateless authentication (stored as `httpOnly` cookies in production).
+* **📊 Interactive Dashboard:** Dynamic data visualization using Recharts, providing users with a clear overview of their financial health through donut charts representing income, expenses, and net balance.
+* **💸 Transaction Management:** Full CRUD (Create, Read, Update, Delete) capabilities for transactions, ensuring users have complete control over their financial records.
+* **🔍 Advanced Filtering & Pagination:** Client-side pagination combined with category and date-range filters allow users to effortlessly navigate through extensive transaction histories.
+* **📱 Responsive UI/UX:** A clean, modern interface featuring a gradient layout that adapts beautifully across desktop, tablet, and mobile devices.
 
-- **Frontend:** React, React Router, Axios, Vite, Recharts
-- **Backend:** Node.js, Express.js, Mongoose, JWT, cookie-parser, CORS
-- **Database:** MongoDB
+## 🛠️ Technology Stack
 
-## 📂 Project Structure
+### Frontend
+* **Core:** React, Vite
+* **Routing:** React Router DOM
+* **State Management:** React Context API
+* **Data Fetching:** Axios
+* **Visualization:** Recharts
 
+### Backend
+* **Runtime:** Node.js
+* **Framework:** Express.js
+* **Database:** MongoDB & Mongoose ORM
+* **Security:** JWT, bcrypt, CORS, cookie-parser
+
+## 📂 Project Architecture
+
+```text
+Tracklify/
+├── backend/                  # Express API server
+│   ├── config/               # Database connection setup
+│   ├── controller/           # Business logic for API endpoints
+│   ├── middleware/           # Custom middlewares (e.g., JWT verification)
+│   ├── models/               # Mongoose schemas (User, Transaction)
+│   ├── routes/               # API route definitions
+│   └── server.js             # Application entry point
+└── frontend/                 # React SPA
+    ├── src/
+    │   ├── api.js            # Axios instance and API call configurations
+    │   ├── components/       # Reusable UI components
+    │   ├── context/          # Global state management (AuthContext)
+    │   ├── pages/            # View components (Dashboard, Login, etc.)
+    └── vite.config.js        # Vite bundler configuration
 ```
-Finance Tracker/
-  backend/
-    config/db.js
-    middleware/auth.js
-    models/{Transaction.js, User.js}
-    routes/{auth.js, transactions.js}
-    server.js
-  frontend/
-    src/
-      components/{Navbar.jsx, ProtectedRoute.jsx, TransactionList.jsx}
-      context/AuthContext.jsx
-      pages/{Login.jsx, Register.jsx, Dashboard.jsx, AddEdit.jsx}
-      api.js
-    vite.config.js
+
+## 🚀 Getting Started
+
+Follow these instructions to set up the project locally.
+
+### Prerequisites
+
+* Node.js (v16+ recommended)
+* MongoDB (Local instance or MongoDB Atlas cluster)
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/tracklify.git
+   cd tracklify
+   ```
+
+2. **Setup Backend:**
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. **Setup Frontend:**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+### Running the Application
+
+**Terminal 1 (Backend):**
+```bash
+cd backend
+npm run dev
 ```
+
+**Terminal 2 (Frontend):**
+```bash
+cd frontend
+npm run dev
+```
+The frontend will be available at `http://localhost:5173`, automatically proxying API requests to the backend at `http://localhost:5000`.
 
 ## ⚙️ Environment Variables
 
-Create `backend/.env` with:
+Create a `.env` file in the `backend` directory with the following variables:
 
-```
-JWT_SECRET=your-super-secret-jwt-key
-MONGO_URI_DEV=mongodb://localhost:27017/finance-tracker
-MONGO_URI_PROD=your_production_mongo_url
-PORT=5000
-NODE_ENV=development
-FRONTEND_URL=http://localhost:5173
-```
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `PORT` | Backend server port | `5000` |
+| `NODE_ENV` | Environment (`development` or `production`) | `development` |
+| `MONGO_URI_DEV` | MongoDB connection string (Local) | `mongodb://localhost:27017/tracklify` |
+| `MONGO_URI_PROD` | MongoDB connection string (Production)| `mongodb+srv://...` |
+| `JWT_SECRET` | Secret key for JWT signing | `your-super-secret-key` |
+| `FRONTEND_URL` | URL of the frontend application | `http://localhost:5173` |
 
-Notes:
+## 📡 API Reference
 
-- In production, set `NODE_ENV=production` and `FRONTEND_URL` to your deployed frontend.
-- In production the server sets a `token` httpOnly cookie; in development the frontend uses the bearer token.
+### Authentication
+* `POST /api/auth/register` - Register a new user
+* `POST /api/auth/login` - Authenticate user & get token
+* `POST /api/auth/logout` - Clear authentication cookie
 
-## 🚀 Local Development
-
-Terminal 1 — Backend:
-
-```
-cd backend
-npm i
-npm run dev
-```
-
-Terminal 2 — Frontend:
-
-```
-cd frontend
-npm i
-npm run dev
-```
-
-- Frontend runs at `http://localhost:5173`
-- Backend runs at `http://localhost:5000`
-- Vite proxy forwards `/api` to the backend. See `frontend/vite.config.js`.
-
-## 🔐 Auth Flow
-
-- Login/Register (`POST /api/auth/login`, `POST /api/auth/register`) returns `{ token, user }`.
-- Frontend stores token in `localStorage` in development; in production backend sets an httpOnly cookie.
-- Logout (`POST /api/auth/logout`) clears cookie in production; frontend always clears local state.
-
-## 📡 API Routes
-
-Base URL: `/api`
-
-- `POST /auth/register` – create account
-- `POST /auth/login` – login
-- `POST /auth/logout` – logout (clears cookie in prod)
-- `GET /transactions` – list transactions for logged‑in user
-- `GET /transactions/:id` – get one
-- `POST /transactions` – create
-- `PUT /transactions/:id` – update
-- `DELETE /transactions/:id` – delete
-
-## 🧭 Frontend Notes
-
-- `src/context/AuthContext.jsx` restores session on refresh and exposes `login`, `logout`, `user`, and `loading`.
-- `src/components/ProtectedRoute.jsx` waits for auth `loading` to finish before routing.
-- `src/components/Navbar.jsx` includes a Logout button that calls the backend and clears local state.
-- `src/pages/TransactionList.jsx` implements category/date filters and client-side pagination.
-- `src/pages/Dashboard.jsx` renders a donut chart (Recharts) for Income/Expense/Balance.
+### Transactions
+* `GET /api/transactions` - Retrieve all transactions (supports pagination/filtering)
+* `POST /api/transactions` - Create a new transaction
+* `GET /api/transactions/:id` - Retrieve a specific transaction
+* `PUT /api/transactions/:id` - Update a transaction
+* `DELETE /api/transactions/:id` - Delete a transaction
 
 ## 📦 Build & Deploy
 
-Frontend (Vite):
-
-```
+### Frontend (Vite)
+```bash
 cd frontend
 npm run build
 ```
 
-Backend:
+### Backend Deployment (e.g., Render)
+- Ensure `JWT_SECRET`, `MONGO_URI_PROD`, `NODE_ENV=production`, and `FRONTEND_URL` are configured in your hosting environment.
+- Serve over HTTPS to ensure `secure` httpOnly cookies function correctly.
+- Point the web service start command to `node backend/server.js`.
 
-- Ensure `JWT_SECRET`, `MONGO_URI_PROD`, `NODE_ENV=production`, and `FRONTEND_URL` are set.
-- Serve over HTTPS so `secure` cookies work.
+## 🤝 Contributing
 
-Render deployment:
+Contributions, issues, and feature requests are welcome!
+Feel free to check [issues page](#) to report a bug or request a feature.
 
-- Set environment variables in the service settings
-- Point the web service to `backend/server.js`
-- Optionally serve the built frontend separately or via static hosting
+## 📝 License
 
-## 🧪 Quick Test
-
-1. Register a new user
-2. Add a few transactions (positive amounts = income, negative = expense)
-3. Use filters and pagination on the list
-4. See the donut chart update on the dashboard
-5. Logout and login again
-
----
-
-Issues or suggestions? Feel free to open an issue or PR.
+This project is open-source and available under the MIT License.
